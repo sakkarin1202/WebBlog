@@ -5,19 +5,20 @@ import Footer from "../components/Footer";
 
 const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-r from-blue-50 via-purple-100 to-pink-100">
-      <header className="bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+    <div className="min-h-screen flex flex-col">
+      <header>
         <NavBar />
       </header>
 
-      <main>
+      <main className="flex-grow">
         <Outlet />
       </main>
 
-      <footer className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-6 shadow-lg">
+      <footer className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-6 shadow-lg mt-auto">
         <Footer />
       </footer>
     </div>
   );
 };
+
 export default MainLayout;

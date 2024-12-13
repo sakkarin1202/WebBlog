@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router";
-import swal from "sweetalert2"; // แก้ไขชื่อการนำเข้าเป็น 'sweetalert2'
+import swal from "sweetalert2";
+import { useAuthContext } from "../context/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -9,6 +10,13 @@ const Register = () => {
     username: "",
     password: "",
   });
+
+  const { user: loggedUser } = useAuthContext();
+  useEffect(() => {
+    if (loggedUser) {
+      navigate("/");
+    }
+  }, [loggedUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

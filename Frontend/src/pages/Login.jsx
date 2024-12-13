@@ -1,12 +1,59 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import AuthService from "../services/auth.service";
+import { useNavigate } from "react-router";
+import swal from "sweetalert2";
+import { useAuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+  const { login, user: loggedUser } = useAuthContext();
+  useEffect(() => {
+    if (loggedUser) {
+      navigate("/");
+    }
+  }, [loggedUser]);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      const currentUser = await AuthService.login(user.username, user.password);
+      if (currentUser.status === 200) {
+        login(currentUser.data);
+        swal.fire({
+          title: "Login Successful",
+          text: "Welcome back!",
+          icon: "success",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      swal.fire({
+        title: "Login Failed",
+        text: error?.response?.data?.message || error.message,
+        icon: "error",
+        confirmButtonText: "Try Again",
+      });
+    }
+  };
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      {/* ฟอร์มล็อกอิน */}
       <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
-        {/* ช่องใส่ชื่อผู้ใช้ */}
+
+        {/* Username Input */}
         <label className="input input-bordered flex items-center gap-2 mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -18,12 +65,15 @@ const Login = () => {
           </svg>
           <input
             type="text"
+            name="username"
+            value={user.username}
+            onChange={handleChange}
             className="grow p-2 border rounded"
             placeholder="Username"
           />
         </label>
 
-        {/* ช่องใส่รหัสผ่าน */}
+        {/* Password Input */}
         <label className="input input-bordered flex items-center gap-2 mb-6">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,17 +89,20 @@ const Login = () => {
           </svg>
           <input
             type="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
             className="grow p-2 border rounded"
             placeholder="Password"
           />
         </label>
 
-        {/* ปุ่ม Submit */}
-        <button className="w-full p-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600">
+        {/* Login Button */}
+        <button
+          onClick={handleSubmit}
+          className="w-full p-2 mb-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+        >
           Login
-        </button>
-        <button className="w-full p-2 text-white bg-gray-400 rounded hover:bg-gray-500">
-          Cancel
         </button>
       </div>
     </div>
