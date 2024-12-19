@@ -15,7 +15,7 @@ const login = async (username, password) => {
     if (data.accessToken) {
       cookies.set("accessToken", data.accessToken, {
         path: "/",
-        expires: new Date(Date.now() + 86400),
+        expires: new Date(Date.now() + 86400 * 1000),
       });
     }
     cookies.set("user", data);

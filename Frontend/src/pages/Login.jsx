@@ -49,8 +49,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+    <div className="container mx-auto max-w-md mt-20 px-4 py-6">
+      <div className="card shadow-lg bg-base-100 p-6 rounded-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
         {/* Username Input */}

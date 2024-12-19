@@ -1,20 +1,63 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import PostService from "../services/post.service";
 
 const Create = () => {
-  const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState(null);
+  const [postDetail, setPostDetail] = useState({
+    title: "",
+    summary: "",
+    content: "",
+    file: null,
+  });
+  const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "file") {
+      setPostDetail({ ...postDetail, [name]: e.target.files[0] });
+    } else {
+      setPostDetail({ ...postDetail, [name]: value });
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Post Created:", { title, summary, content, image });
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent form default submission behavior
+    try {
+      const data = new FormData();
+      data.append("title", postDetail.title);
+      data.append("summary", postDetail.summary);
+      data.append("content", postDetail.content);
+      data.append("file", postDetail.file);
+
+      const response = await PostService.createPost(data);
+
+      if (response.status === 200) {
+        swal
+          .fire({
+            title: "Create Post",
+            text: "Create Post successfully",
+            icon: "success",
+          })
+          .then(() => {
+            setPostDetail({
+              title: "",
+              summary: "",
+              content: "",
+              file: null,
+            });
+          });
+        navigate("/");
+      }
+    } catch (error) {
+      swal.fire({
+        title: "Create Post",
+        text: error?.response?.data?.message || error.message,
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -32,10 +75,10 @@ const Create = () => {
           </label>
           <input
             type="text"
-            id="title"
+            name="title"
+            value={postDetail.title}
+            onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md text-sm"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter the post title"
             required
           />
@@ -49,10 +92,10 @@ const Create = () => {
             Summary
           </label>
           <textarea
-            id="summary"
+            name="summary"
+            value={postDetail.summary}
+            onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md text-sm"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
             placeholder="Write a short summary"
             rows="3"
             required
@@ -67,8 +110,9 @@ const Create = () => {
             Content
           </label>
           <ReactQuill
-            value={content}
-            onChange={setContent}
+            name="content"
+            value={postDetail.content}
+            onChange={handleChange}
             placeholder="Write the content of your post"
             className="mt-1 border border-gray-300 rounded-md text-sm"
             theme="snow"
@@ -95,15 +139,10 @@ const Create = () => {
           </label>
           <input
             type="file"
-            id="image"
+            name="file"
+            onChange={handleChange}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md text-sm"
-            onChange={handleImageChange}
           />
-          {image && (
-            <p className="text-xs mt-1 text-gray-500">
-              File selected: {image.name}
-            </p>
-          )}
         </div>
 
         <div className="text-center">
