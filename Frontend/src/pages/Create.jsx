@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { useNavigate } from "react-router";
 import swal from "sweetalert2";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import PostService from "../services/post.service";
+import Editor from "../components/Editor";
 
 const Create = () => {
   const [postDetail, setPostDetail] = useState({
@@ -12,6 +13,8 @@ const Create = () => {
     content: "",
     file: null,
   });
+  const [content,setContent] = useState("")
+  const editorRef = useRef(null)
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,9 +25,13 @@ const Create = () => {
       setPostDetail({ ...postDetail, [name]: value });
     }
   };
-
+  const handleContentChange = (value)=>{
+    setContent(value);
+    setPostDetail({...postDetail,content:content})
+  }
+  
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form default submission behavior
+    e.preventDefault(); 
     try {
       const data = new FormData();
       data.append("title", postDetail.title);
@@ -109,25 +116,9 @@ const Create = () => {
           >
             Content
           </label>
-          <ReactQuill
-            name="content"
-            value={postDetail.content}
-            onChange={handleChange}
-            placeholder="Write the content of your post"
-            className="mt-1 border border-gray-300 rounded-md text-sm"
-            theme="snow"
-            modules={{
-              toolbar: [
-                [{ header: "1" }, { header: "2" }, { font: [] }],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["bold", "italic", "underline"],
-                ["link"],
-                [{ align: [] }],
-                ["image"],
-                ["clean"],
-              ],
-            }}
-          />
+          <div className="64">
+            <Editor value ={content}onChange={handleContentChange}ref={editorRef}/>              
+            </div>
         </div>
 
         <div>
@@ -148,7 +139,7 @@ const Create = () => {
         <div className="text-center">
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 text-sm"
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 text-sm md-5"
           >
             Create Post
           </button>
