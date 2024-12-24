@@ -3,6 +3,7 @@ import PostService from "../services/post.service";
 import Swal from "sweetalert2";
 import { useParams } from "react-router";
 import {useAuthContext} from "../context/AuthContext"
+const baseURL = import.meta.env.VITE_PIC_URL;
 
 const PostDetail = () => {
   const [postDetail, setPostDetail] = useState(null);
