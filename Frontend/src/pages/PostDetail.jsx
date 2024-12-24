@@ -29,9 +29,24 @@ const PostDetail = () => {
       fetchPost(); 
     }
   }, [id]);
-  return (
-    <div>is Athor{(postDetail?.author?._id === user?.id) && (<p>true</p>)}</div>
-  )
+  return  return (
+    <div className="container mx-auto max-w-3xl mt-20 px-4">
+      <div className="card shadow-lg bg-base-100 p-6 rounded-lg">
+        {postDetail && (
+          <>
+            <h1 className="text-3xl font-bold mb-4">{postDetail.title}</h1>
+            <img
+              src={`${baseURL}/${postDetail.cover}`}
+              alt={postDetail.title}
+              className="w-full h-64 object-cover mb-4"
+            />
+            <p className="text-lg mb-4">{postDetail.summary}</p>
+            <p className="text-lg mb-4">{postDetail.content}</p>
+          </>
+        )}
+      </div>
+    </div>
+  );
   
 }
 
