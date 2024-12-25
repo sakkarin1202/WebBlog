@@ -1,4 +1,4 @@
-import { useState,useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router";
 import swal from "sweetalert2";
 import ReactQuill from "react-quill";
@@ -13,8 +13,8 @@ const Create = () => {
     content: "",
     file: null,
   });
-  const [content,setContent] = useState("")
-  const editorRef = useRef(null)
+  const [content, setContent] = useState("");
+  const editorRef = useRef(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,13 +25,13 @@ const Create = () => {
       setPostDetail({ ...postDetail, [name]: value });
     }
   };
-  const handleContentChange = (value)=>{
+  const handleContentChange = (value) => {
     setContent(value);
-    setPostDetail({...postDetail,content:content})
-  }
-  
+    setPostDetail({ ...postDetail, content: content });
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     try {
       const data = new FormData();
       data.append("title", postDetail.title);
@@ -117,8 +117,12 @@ const Create = () => {
             Content
           </label>
           <div className="64">
-            <Editor value ={content}onChange={handleContentChange}ref={editorRef}/>              
-            </div>
+            <Editor
+              value={content}
+              onChange={handleContentChange}
+              ref={editorRef}
+            />
+          </div>
         </div>
 
         <div>

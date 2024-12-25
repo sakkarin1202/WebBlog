@@ -27,7 +27,7 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // ป้องกันการรีเฟรชหน้าเมื่อส่งฟอร์ม
+    e.preventDefault();
     try {
       const currentUser = await AuthService.register(
         user.username,
