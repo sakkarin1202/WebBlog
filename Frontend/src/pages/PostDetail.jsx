@@ -43,7 +43,7 @@ const PostDetail = () => {
       cancelButtonText: "No",
     }).then((result) => {
       if (result.isConfirmed) {
-        PostService.DeleteById(id); // เรียกใช้ฟังก์ชัน logout
+        PostService.DeleteById(id);
         Swal.fire({
           title: "Delete Post",
           text: "Delete successfully",
@@ -71,7 +71,7 @@ const PostDetail = () => {
             <span className="text-blue-500">@{postDetail.author.username}</span>
           </div>
         </div>
-        {user.id === postDetail.author._id && (
+        {user?.id === postDetail.author._id && (
           <div className="edit-row mb-4 text-center flex items-center justify-center gap-2">
             <a href={`/edit/${postDetail._id}`} className="btn btn-warning">
               Edit Post
