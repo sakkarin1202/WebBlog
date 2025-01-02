@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuthContext } from "../context/AuthContext";
-import Logo from "../assets/Logo.png";
+import Logo from "../assets/logo.png";
 import Swal from "sweetalert2";
 import { FaPen } from "react-icons/fa";
 
