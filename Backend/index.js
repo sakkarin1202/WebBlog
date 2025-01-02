@@ -8,11 +8,6 @@ const PORT = process.env.PORT;
 const DB_URL = process.env.DB_URL;
 const userRouter = require("./routers/user.router");
 const postRouter = require("./routers/post.router");
-const frontend_url = process.env.frontend_url || "http://localhost:5173";
-
-const corsOption = {
-  origin: frontend_url,
-};
 
 try {
   mongoose.connect(DB_URL);
@@ -22,7 +17,6 @@ try {
 }
 
 app.use(cors({ origin: BASE_URL, credentials: true }));
-app.use(cors(corsOption));
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("<h1>Welcom to SE NPRU Blog resfull api</h1>");
