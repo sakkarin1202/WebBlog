@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import PostService from "../services/post.service";
 import Swal from "sweetalert2";
 import { useAuthContext } from "../context/AuthContext";
-const baseURL = import.meta.env.VITE_PIC_URL;
+// const baseURL = import.meta.env.VITE_PIC_URL;
 
 import { format } from "date-fns";
 
@@ -68,7 +68,7 @@ const PostDetail = () => {
             {format(postDetail.createdAt, "dd MMMM yyyy HH:mm")}
           </time>
           <div className="author mb-2">
-            <span className="text-blue-500">@{postDetail.author.username}</span>
+            <span className="text-blue-500">@<a href={`/author/${postDetail.author._id}`}>{postDetail.author.username}</a></span>
           </div>
         </div>
         {user?.id === postDetail.author._id && (
@@ -84,11 +84,11 @@ const PostDetail = () => {
             </a>
           </div>
         )}
-        <img
-          src={`${baseURL}/${postDetail.cover}`}
+        {/* <img
+          src={`${postDetail.cover}`}
           alt={postDetail.title}
           className="w-full h-64 object-cover mb-4"
-        />
+        /> */}
         <div
           className="content text-grey-700"
           dangerouslySetInnerHTML={{ __html: postDetail.content }}

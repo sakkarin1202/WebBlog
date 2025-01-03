@@ -76,7 +76,7 @@ const Edit = () => {
             icon: "success",
           })
           .then(() => {
-            navigate(`/post/${id}`); // Redirect to the updated post
+            navigate(`/post/${id}`);  
           });
       }
     } catch (error) {

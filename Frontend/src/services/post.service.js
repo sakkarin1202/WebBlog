@@ -29,12 +29,18 @@ const updatePostById = async (id, post) => {
   });
   return response;
 };
+
+const getPostByAuthor = async (id) =>{
+  return await api.get(`${API_URL}/author/${id}`)
+}
+
 const PostService = {
   createPost,
   getPosts,
   getPostById,
   DeleteById,
   updatePostById,
+  getPostByAuthor,
 };
 
 export default PostService;
