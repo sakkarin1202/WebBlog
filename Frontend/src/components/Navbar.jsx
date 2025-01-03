@@ -6,7 +6,6 @@ import { FaPen } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logout } = useAuthContext();
-
   const handleLogout = () => {
     Swal.fire({
       title: "คุณต้องการออกจากระบบหรือไม่?",
